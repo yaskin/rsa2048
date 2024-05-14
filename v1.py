@@ -1,5 +1,7 @@
 # pip install sympy gmpy2
 # pip install tqdm
+#Два наибольших делителя числа 25212631813509849273: 4696934183 и 5367891231
+#Среднее время выполнения операции: 225.23 сек
 import time
 from tqdm import tqdm
 
