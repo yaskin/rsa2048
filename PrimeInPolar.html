@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv-Compatible" content="IE=edge">
+    <meta http-equivX-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Простые числа в полярных координатах</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -22,7 +22,7 @@
         }
 
         function convertToPolarCoordinates(num) {
-            const r = num;//Math.sqrt(num);
+            const r = Math.sqrt(num);
             const theta = num * Math.PI / 180; // переводим угол из градусов в радианы
 
             return { r, theta };
@@ -44,7 +44,7 @@
             type: 'polarArea',
             data: {
                 datasets: [{
-                    data: polarData.map(d => d.r),
+                    data: polarData.map(d => 1), // Устанавливаем длину дуги в 1 для всех точек
                     backgroundColor: 'rgba(255, 99, 132, 0.5)',
                     label: 'Prime Numbers',
                 }],
