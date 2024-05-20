@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv-UA-Compatible" content="IE=edge">
+    <meta http-equiv-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Простые числа в полярных координатахt</title>
+    <title>Простые числа в полярных координатах</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -22,13 +22,13 @@
         }
 
         function convertToPolarCoordinates(num) {
-            const r = num;//r = Math.sqrt(num);
-            const theta = num;
+            const r = num;//Math.sqrt(num);
+            const theta = num * Math.PI / 180; // переводим угол из градусов в радианы
 
             return { r, theta };
         }
 
-        const maxNumber = 200;
+        const maxNumber = 100;
         const primeNumbers = [];
         const polarData = [];
 
@@ -36,7 +36,7 @@
             if (isPrime(i)) {
                 primeNumbers.push(i);
                 const { r, theta } = convertToPolarCoordinates(i);
-                polarData.push({ r: r, theta: theta, label: `(${r.toFixed(2)}, ${theta})` });
+                polarData.push({ r: r, theta: theta, label: `(${r.toFixed(2)}, ${theta.toFixed(2)})` });
             }
         }
 
@@ -46,7 +46,7 @@
                 datasets: [{
                     data: polarData.map(d => d.r),
                     backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                    label: 'Простые числа',
+                    label: 'Prime Numbers',
                 }],
             },
             options: {
