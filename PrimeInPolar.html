@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equivX-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polar Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <canvas id="myChart" width="400" height="400"></canvas>
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+
+        function isPrime(num) {
+            for (let i = 2; i <= Math.sqrt(num); i++) {
+                if (num % i === 0) {
+                    return false;
+                }
+            }
+            return num > 1;
+        }
+
+        function convertToPolarCoordinates(num) {
+            const r = Math.sqrt(num);
+            const theta = num;
+
+            return { r, theta };
+        }
+
+        const maxNumber = 100;
+        const primeNumbers = [];
+        const polarData = [];
+
+        for (let i = 2; i <= maxNumber; i++) {
+            if (isPrime(i)) {
+                primeNumbers.push(i);
+                const { r, theta } = convertToPolarCoordinates(i);
+                polarData.push({ r: r, theta: theta });
+            }
+        }
+
+        new Chart(ctx, {
+            type: 'polarArea',
+            data: {
+                datasets: [{
+                    data: polarData,
+                    backgroundColor: ['rgba(255, 99, 132, 0.5)'],
+                }],
+            },
+            options: {
+                scale: {
+                    angleLines: {
+                        display: true
+                    },
+                    ticks: {
+                        suggestedMin: 0,
+                        suggestedMax: Math.sqrt(maxNumber) + 1
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
