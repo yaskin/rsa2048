@@ -14,9 +14,11 @@ def calculate_timings(number):
 
         num = int(number)
         square_root = int(num**0.5)
+        print(f"Квадратный корень числа {num} равен: {square_root}")
 
         divisor1 = 1
         for j in tqdm(range(square_root, 1, -1), desc="Поиск делителей", unit="%", ncols=100):
+            print(f"Делитель: {j}")
             if num % j == 0:
                 divisor1 = j
                 break
