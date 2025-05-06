@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Простые числа в полярных координатах</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <canvas id="myChart" width="800" height="800"></canvas>
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+
+        // Оптимизированная проверка на простоту
+        function isPrime(num) {
+            if (num <= 1) return false;
+            if (num === 2) return true;
+            if (num % 2 === 0) return false;
+            
+            for (let i = 3; i <= Math.sqrt(num); i += 2) {
+                if (num % i === 0) return false;
+            }
+            return true;
+        }
+
+        // Корректное преобразование в декартовы координаты
+        function polarToCartesian(num) {
+            const r = num; // Радиус = числу
+            const theta = num; // Угол в радианах = числу
+            
+            // Нормализация угла (остаток от деления на 2π)
+            const normalizedTheta = theta % (2 * Math.PI);
+            
+            return {
+                x: r * Math.cos(normalizedTheta),
+                y: r * Math.sin(normalizedTheta),
+                r: r,
+                theta: normalizedTheta
+            };
+        }
+
+        const maxNumber = 10000;
+        const data = [];
+
+        // Генерация данных
+        for (let i = 2; i <= maxNumber; i++) {
+            if (isPrime(i)) {
+                const point = polarToCartesian(i);
+                data.push({
+                    x: point.x,
+                    y: point.y,
+                    r: point.r,
+                    theta: point.theta,
+                    label: `Число: ${i}\nРадиус: ${i}\nУгол: ${point.theta.toFixed(2)} радиан`
+                });
+            }
+        }
+
+        // Создание точечной диаграммы
+        new Chart(ctx, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Простые числа',
+                    data: data.map(p => ({x: p.x, y: p.y})),
+                    backgroundColor: 'rgba(255, 99, 132, 0.7)',
+                    pointRadius: 3,
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom',
+                        title: {
+                            display: true,
+                            text: 'X = r * cos(θ)'
+                        },
+                        ticks: {
+                            callback: value => value.toFixed(1)
+                        }
+                    },
+                    y: {
+                        type: 'linear',
+                        title: {
+                            display: true,
+                            text: 'Y = r * sin(θ)'
+                        },
+                        ticks: {
+                            callback: value => value.toFixed(1)
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => data[context.dataIndex].label
+                        }
+                    },
+                    legend: {
+                        display: false
+                    }
+                },
+                elements: {
+                    point: {
+                        borderWidth: 0
+                    }
+                },
+                responsive: false,
+                maintainAspectRatio: false
+            }
+        });
+    </script>
+</body>
+</html>
